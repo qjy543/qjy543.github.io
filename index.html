@@ -229,6 +229,131 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/Text ming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qian JiaYi">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/09/Text ming/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-09T16:32:06+08:00">
+                2020-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="政策法规文本挖掘"><a href="#政策法规文本挖掘" class="headerlink" title="政策法规文本挖掘"></a>政策法规文本挖掘</h2><h4 id="1-载入相应分析包"><a href="#1-载入相应分析包" class="headerlink" title="1.载入相应分析包"></a>1.载入相应分析包</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(Rwordseg)</span><br><span class="line"><span class="keyword">library</span>(rvest)</span><br><span class="line"><span class="keyword">library</span>(RColorBrewer)</span><br><span class="line"><span class="keyword">library</span>(wordcloud2)</span><br></pre></td></tr></table></figure>
+<h4 id="2-通过网络爬虫获取该网页的文本信息"><a href="#2-通过网络爬虫获取该网页的文本信息" class="headerlink" title="2.通过网络爬虫获取该网页的文本信息"></a>2.通过网络爬虫获取该网页的文本信息</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">web &lt;- read_html(x = <span class="string">"http://www.gov.cn/xinwen/2020-06/30/content_5522993.htm"</span>)</span><br><span class="line">words&lt;-web %&gt;% html_nodes(<span class="string">"p"</span>) %&gt;% html_text()</span><br><span class="line">text&lt;-paste(words,sep = <span class="string">""</span>)</span><br><span class="line">textTemp &lt;- gsub(<span class="string">"[0-9０１２３４５６７８９&lt; &gt; ~]"</span>,<span class="string">""</span>,text) <span class="comment">### 剔除数字和特殊字符</span></span><br><span class="line">data&lt;-unlist(lapply(X=textTemp, FUN=segmentCN)) <span class="comment">### 对获取文本利用NLP分词器分词</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-通过编写函数删去停词"><a href="#3-通过编写函数删去停词" class="headerlink" title="3.通过编写函数删去停词"></a>3.通过编写函数删去停词</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">stopwords&lt;-unlist(read.table(<span class="string">"chineseStopWords.txt"</span>,fileEncoding = <span class="string">"GBK"</span>,stringsAsFactors=<span class="literal">F</span>)) <span class="comment">### 读入中文停词数据</span></span><br><span class="line"><span class="comment">### 删去停词的函数</span></span><br><span class="line">removeStopWords &lt;- <span class="keyword">function</span>(x,stopwords) &#123;</span><br><span class="line">  temp &lt;- character(<span class="number">0</span>)</span><br><span class="line">  index &lt;- <span class="number">1</span></span><br><span class="line">  xLen &lt;- length(x)</span><br><span class="line">  <span class="keyword">while</span> (index &lt;= xLen) &#123;</span><br><span class="line">    <span class="keyword">if</span> (length(stopwords[stopwords==x[index]]) &lt;<span class="number">1</span>)</span><br><span class="line">      temp&lt;- c(temp,x[index])</span><br><span class="line">    index &lt;- index +<span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  temp</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">date &lt;-lapply(data,removeStopWords,stopwords) <span class="comment">### 传入多参数进行停词删除</span></span><br><span class="line">words &lt;- lapply(date,strsplit,<span class="string">" "</span>)</span><br><span class="line">wordsNum &lt;- table(unlist(words))</span><br><span class="line">wordsNum &lt;- sort(wordsNum) <span class="comment">### 根据词频排序</span></span><br><span class="line">wordsData &lt;- data.frame(words =names(wordsNum), freq = wordsNum)</span><br></pre></td></tr></table></figure>
+<h4 id="4-通过词云实现文本高频词可视化"><a href="#4-通过词云实现文本高频词可视化" class="headerlink" title="4.通过词云实现文本高频词可视化"></a>4.通过词云实现文本高频词可视化</h4> <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">word.top100 &lt;- tail(wordsData,<span class="number">100</span>) </span><br><span class="line"></span><br><span class="line">row.names(word.top100)&lt;-word.top100$words</span><br><span class="line">word.top100&lt;-word.top100[,<span class="number">2</span>:<span class="number">3</span>]</span><br><span class="line">colnames(word.top100)&lt;-c(<span class="string">"word"</span>,<span class="string">"freq"</span>)</span><br><span class="line">colors&lt;-brewer.pal(<span class="number">8</span>,<span class="string">"Set2"</span>)</span><br><span class="line">wordcloud2(word.top100,size = <span class="number">2</span>, minRotation = -pi/<span class="number">6</span>, maxRotation = -pi/<span class="number">6</span>,</span><br><span class="line">           rotateRatio = <span class="number">1</span>,fontFamily = <span class="string">"微软雅黑"</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggl4b8y3bvj30ol0gin3d.jpg" alt></p>
+<p>关于中央全面深化改革委员会第十四次会议的高频词</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/09/My certificate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -793,7 +918,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
