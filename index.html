@@ -300,7 +300,57 @@
       
         
           
-            <h3 id="shell-learning"><a href="#shell-learning" class="headerlink" title="shell learning"></a>shell learning</h3><h4 id="shell输出重定向"><a href="#shell输出重定向" class="headerlink" title="shell输出重定向"></a>shell输出重定向</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+            <h3 id="shell-learning"><a href="#shell-learning" class="headerlink" title="shell learning"></a>shell learning</h3><h4 id="shell输出重定向"><a href="#shell输出重定向" class="headerlink" title="shell输出重定向"></a>shell输出重定向</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>符 号</th>
+<th>作 用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标准输出重定向</td>
+<td>command &gt;file</td>
+<td>以<strong>覆盖</strong>的方式，把 command 的<strong>正确</strong>输出结果输出到 file 文件中。</td>
+</tr>
+<tr>
+<td>标准输出重定向</td>
+<td>command &gt;&gt;file</td>
+<td>以<strong>追加</strong>的方式，把 command 的<strong>正确</strong>输出结果输出到 file 文件中。</td>
+</tr>
+<tr>
+<td>标准错误输出重定向</td>
+<td>command 2&gt;file</td>
+<td>以<strong>覆盖</strong>的方式，把 command 的<strong>错误</strong>信息输出到 file 文件中。</td>
+</tr>
+<tr>
+<td>标准错误输出重定向</td>
+<td>command 2&gt;&gt;file</td>
+<td>以<strong>追加</strong>的方式，把 command 的<strong>错误</strong>信息输出到 file 文件中。</td>
+</tr>
+<tr>
+<td>正确输出和错误信息同时保存</td>
+<td>command &gt;file 2&gt;&amp;1</td>
+<td>以<strong>覆盖</strong>的方式，把<strong>正确</strong>输出和<strong>错误</strong>信息同时保存到同一个文件（file）中。</td>
+</tr>
+<tr>
+<td>正确输出和错误信息同时保存</td>
+<td>command &gt;&gt;file 2&gt;&amp;1</td>
+<td>以<strong>追加</strong>的方式，把<strong>正确</strong>输出和<strong>错误</strong>信息同时保存到同一个文件（file）中。</td>
+</tr>
+<tr>
+<td>正确输出和错误信息同时保存</td>
+<td>command &gt;file1 2&gt;file2</td>
+<td>以<strong>覆盖</strong>的方式，把<strong>正确</strong>的输出结果输出到 file1 文件中，把<strong>错误</strong>信息输出到 file2 文件中。</td>
+</tr>
+<tr>
+<td>正确输出和错误信息同时保存</td>
+<td>command &gt;&gt;file1 2&gt;&gt;file2</td>
+<td>以<strong>追加</strong>的方式，把<strong>正确</strong>的输出结果输出到 file1 文件中，把<strong>错误</strong>信息输出到 file2 文件中。</td>
+</tr>
+</tbody>
+</table>
 
           
         
